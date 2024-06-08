@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import ItemContact from './components/ItemContact.vue'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
 
 const isUpdate = ref(false)
 const currentEditId = ref(null as number | null)
@@ -13,7 +16,7 @@ const dataContacts = ref([
   {
     id: 1,
     name: 'Abdul',
-    phone: '1234567890'
+    phone: '123456789011111'
   },
   {
     id: 2,
@@ -60,22 +63,22 @@ function editContact(id: number) {
 </script>
 
 <template>
-  <div>
-    <h1>Contact App</h1>
-    <h2>{{ isUpdate ? 'Update Contact' : 'Add Contact' }}</h2>
+  <div class="max-w-xl mx-auto">
+    <h1 class="font-bold text-2xl">Contact App</h1>
+    <div class="mt-4">
+      <h2>{{ isUpdate ? 'Update Contact' : 'Add Contact' }}</h2>
 
-    <form @submit.prevent="handleSubmit">
-      <input type="text" placeholder="Name" v-model="formInput.name" />
-      <input type="text" placeholder="Phone" v-model="formInput.phone" />
-      <button type="submit">{{ isUpdate ? 'Update' : 'Add' }}</button>
-    </form>
+      <form @submit.prevent="handleSubmit" class="space-y-2 mt-2">
+        <Input type="text" placeholder="Name" v-model="formInput.name" />
+        <Input type="text" placeholder="Phone" v-model="formInput.phone" />
+        <Button type="submit">{{ isUpdate ? 'Update' : 'Add' }}</Button>
+      </form>
+    </div>
 
+    <h1 class="mt-4 text-lg font-bold">Contacts</h1>
     <ul>
       <li v-for="contact in dataContacts" :key="contact.id">
-        <p>{{ contact.name }}</p>
-        <p>{{ contact.phone }}</p>
-        <button @click="editContact(contact.id)">Edit</button>
-        <button @click="deleteContact(contact.id)">Delete</button>
+        <ItemContact :contact="contact" :editContact="editContact" :deleteContact="deleteContact" />
       </li>
     </ul>
   </div>
